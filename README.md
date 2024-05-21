@@ -13,4 +13,6 @@
 PARPAL_DATA_LOCATION=my/path/to/data/app
 export PARPAL_DATA_LOCATION
 ```
+Images are automatically built here: 
+https://quay.io/repository/c3genomics/parpal/
 
