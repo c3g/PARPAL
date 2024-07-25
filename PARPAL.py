@@ -25,7 +25,6 @@ genesofi=sorted(meta["pairs display"].unique().tolist())
 ## Select my picture colors
 mycmap=colors.LinearSegmentedColormap.from_list("custom", colors=["#262626",'#83f52c'], N=50)
 
-
 ################################################################################
 ##################### ASSUMPTIONS FOR THIS TO WORK #############################
 
@@ -246,10 +245,10 @@ def server(input, output, session):
         if len(redis) > 0:
             
             ## Selec column
-            redis=redis[redis.columns.difference(['No redistribution or protein abundance change'])] 
+            redis=redis[redis.columns.difference(['No redistribution or protein abundance change'])]
             
             ## Change name - center
-            redis=redis.style.set_properties(**{'text-align': 'center', 'font-size': '12px', 'font-family': 'Helvetica Neue'}).hide(axis='index')
+            redis=redis.style.set_properties(**{'text-align': 'center', 'font-size': '12px', 'font-family': 'Helvetica Neue'}).hide(axis='index').format(precision=3)
             redis=redis.set_table_styles([{'selector':'th', 'props': 'text-align: center; font-size: 12px; font-family:Helvetica Neue;'}])
         
         else:
