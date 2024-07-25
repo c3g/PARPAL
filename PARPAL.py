@@ -74,27 +74,27 @@ app_ui = ui.page_sidebar(
       HTML("<a href='https://kuzmin-lab.github.io/'>https://kuzmin-lab.github.io/</a>") 
         ).add_style("text-align:center; font-size:11pt; font-family:Helvetica Neue;"),
     ui.h1(" ").add_style("text-align:center; padding-top:100px; font-family:Helvetica Neue;"),
-    ui.h6("Please allow for some loading time when switching between paralog pairs."
+    ui.h6("Please allow for some loading time when switching between paralog pairs!"
         ).add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue;"),
     ## Beginning of the tabs
     ui.page_navbar(
         ui.nav_panel("Scores", 
-            ui.output_table("paralogredis"
-            ).add_style("text-align:center; padding-top:30px; padding-bottom:50px; padding-right:300px; padding-left:300px; font-size:9pt; font-family:Helvetica Neue;"),
+            ui.output_table("paralogredis", 
+            ).add_style("padding-top:100px; padding-bottom:100px; padding-right:50px; padding-left:50px; font-family:Helvetica Neue;"),
         ),
         ui.nav_panel("Paralog 1",
             ui.h6("Wild-type background").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:50px; padding-bottom:0px;"),
-            ui.output_plot("pair2_1", width = "1000px", height = "1000px").add_style("text-align:center; padding-top:0px;"),
+            ui.output_plot("pair1_1", width = "1000px", height = "1000px").add_style("text-align:center; padding-top:50px;"),
             ui.hr(), 
-            ui.h6("Deletion background").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:50px; padding-bottom:0px;"), 
-            ui.output_plot("pair2_2", width = "1000px", height = "1000px").add_style("text-align:center; padding-top:0px;"),
+            ui.h6("Deletion background").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:100px; padding-bottom:0px;"), 
+            ui.output_plot("pair1_2", width = "1000px", height = "1000px").add_style("text-align:center; padding-top:50px;"),
         ),
         ui.nav_panel("Paralog 2",
             ui.h6("Wild-type background").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:50px; padding-bottom:0px;"),
-            ui.output_plot("pair1_1", width = "1000px", height = "1000px").add_style("text-align:center; padding-top:0px;"),
+            ui.output_plot("pair2_1", width = "1000px", height = "1000px").add_style("text-align:center; padding-top:50px;"),
             ui.hr(), 
-            ui.h6("Deletion background").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:50px; padding-bottom:0px;"), 
-            ui.output_plot("pair1_2", width = "1000px", height = "1000px").add_style("text-align:center; padding-top:0px;"),
+            ui.h6("Deletion background").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:100px; padding-bottom:0px;"), 
+            ui.output_plot("pair2_2", width = "1000px", height = "1000px").add_style("text-align:center; padding-top:50px;"),
         ),
         ui.nav_panel("Supplemental files",
             ui.h5("Download below supp. data").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:50px; padding-bottom:50px;"),
@@ -142,7 +142,7 @@ def server(input, output, session):
     ## Set code block for sidebar
     @render.text
     def C3G():
-        return f"\n\n\n\n\n\n\n\n\n\n" + \
+        return f"\n\n\n\n\n" + \
                 f"Website developed by: \n" + \
                 f"Gerardo Zapata, Rohan Dandage, \n" + \
                 f"Vanessa Pereira and Elena Kuzmin \n\n" + \
@@ -177,24 +177,49 @@ def server(input, output, session):
 
     ## make variable for the two genes 
     @reactive.calc
+    @reactive.event(input.submit)
     def gene1():
-        meta_of_step=meta2()
-        genes_of_step=meta_of_step["pairs"][1].split("-")
-        gene1=genes_of_step[0]
+        meta_gene=meta2()
+        meta_gene[["label1", "label2"]]=meta_gene['label_display2'].str.split(" ", expand=True)
+        lab1=meta_gene['label1'].str.contains("-GFP")
+        
+        gene1=meta_gene[lab1]["gene symbol query"].unique()[0]
+
         return gene1
 
     @reactive.calc
+    @reactive.event(input.submit)
     def gene2():
-        meta_of_step=meta2()
-        genes_of_step=meta_of_step["pairs"][1].split("-")
-        gene2=genes_of_step[1]
+        meta_gene=meta2()
+        meta_gene[["label1", "label2"]]=meta_gene['label_display2'].str.split(" ", expand=True)
+        lab2=meta_gene['label2'].str.contains("-GFP")
+        
+        gene2=meta_gene[lab2]["gene symbol query"].unique()[0]
+
         return gene2
-            
+      
+    ## make variable for the two genes
+    @reactive.calc
+    @reactive.event(input.submit)
+    def gene11():
+        meta_gene=meta2()
+        genes_of_step=meta_gene["pairs display"][1].split("-")
+        gene11=genes_of_step[0]
+        return gene11
+
+    @reactive.calc
+    @reactive.event(input.submit)
+    def gene22():
+        meta_gene=meta2()
+        genes_of_step=meta_gene["pairs display"][1].split("-")
+        gene22=genes_of_step[1]
+        return gene22
+
     ## Set code block for text example
     @render.text
     def message():
         return f"PARPAL is a web database for single-cell imaging \n" + \
-                f"of protein dynamics of paralogs revealing mechanisms of gene retention \n\n" + \
+                f"of protein dynamics of paralogs revealing sources of gene retention \n\n" + \
                 f"Database statistics:  \n" + \
                 f"Proteins screened = 164 \n" + \
                 f"Paralog pairs screened = 82 \n" + \
@@ -207,19 +232,36 @@ def server(input, output, session):
     @render.table
     @reactive.event(input.submit)
     def paralogredis():
-        gene_of_step1=gene1()
-        gene_of_step2=gene2()
         
         ## Set table options for 3 decimal points 
         pd.options.display.float_format = "{:,.3f}".format 
         
         redis=pd.read_csv(f"{DATAROOT}/scores/NewScores_forGerardo.tsv", sep='\t', float_precision='round_trip')
-        redis=redis[(redis['Gene'] == gene_of_step1) | (redis['Gene'] == gene_of_step2)]
+        redis=redis[(redis['Gene'] == gene11()) | (redis['Gene'] == gene22())]
         redis["No redistribution or protein abundance change"] = ""
         
-        redis=redis[['Paralog pair', 'ORF1-ORF2', 'Gene', 'ORF', 'LFC', 'q-value']] if len(redis) > 0 else redis[["No redistribution or protein abundance change"]]
+        # redis=redis[redis.columns.difference(['No redistribution or protein abundance change'])] if len(redis) > 0 else redis[["No redistribution or protein abundance change"]]
         
-        return redis 
+        ## Loop to display whole table or only the one column
+        if len(redis) > 0:
+            
+            ## Selec column
+            redis=redis[redis.columns.difference(['No redistribution or protein abundance change'])] 
+            
+            ## Change name - center
+            redis=redis.style.set_properties(**{'text-align': 'center', 'font-size': '12px', 'font-family': 'Helvetica Neue'}).hide(axis='index')
+            redis=redis.set_table_styles([{'selector':'th', 'props': 'text-align: center; font-size: 12px; font-family:Helvetica Neue;'}])
+        
+        else:
+            
+            ## Selec column
+            redis=redis[["No redistribution or protein abundance change"]]
+            
+            ## Change name - center
+            redis=redis.style.set_properties(**{'text-align': 'center', 'font-size': '20px', 'font-family': 'Helvetica Neue'})
+            redis=redis.set_table_styles([{'selector':'th', 'props': 'text-align: center; font-size: 20px; font-family:Helvetica Neue;'}])
+        
+        return redis
 
 
     ## Set variable for max intensity value per replicate 
@@ -257,12 +299,22 @@ def server(input, output, session):
         meta_of_step=meta2()
         meta_of_step=meta_of_step.reset_index(drop = True)
         
-        ## Select First. ## CHANGE HERE ##
-        meta_of_step=meta_of_step[meta_of_step["Tpairs"] == meta_of_step["Tpairs"].unique()[0]].sort_values(by='label', ascending=True).reset_index(drop = True) ## CHANGE HERE 
+        ## Select First gene pair. ## CHANGE HERE ##
+        meta_of_step=meta_of_step[meta_of_step["gene symbol query"] == gene1()].sort_values(by=['label display'], ascending=False).reset_index(drop = True) ## CHANGE HERE
         
+        ## LOOP only for NSG1-NSG2 - gene pari 1 - remove rep3
+        if meta_of_step['pairs display'].unique() == "NSG1-NSG2":
+            meta_of_step=meta_of_step[meta_of_step["replicate"] != 'replicate3'].sort_values(by=['label display'], ascending=False).reset_index(drop = True) ## CHANGE HERE
+        else:
+            meta_of_step=meta_of_step
+       
         ## Set inputs
-        gfp_path=meta_of_step["gfp path"]
-        
+        if meta_of_step['pairs display'].unique() == "RPS22A-RPS22B":
+            meta_gfp=meta2()
+            gfp_path=meta_gfp["gfp path"]
+        else:
+            gfp_path=meta_of_step["gfp path"]
+                 
         ## Get range of both labels
         ima_range=range(meta_of_step.index.min()
                       , meta_of_step.index.max() + 1
@@ -317,7 +369,7 @@ def server(input, output, session):
                         locals()["ax" + str(j)][i].imshow(X=test, cmap = mycmap
                                       , vmax = np.percentile(maxlistT, 2.5)
                                       )
-                        locals()["ax" + str(j)][i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8) ##CHANGE HERE##
+                        locals()["ax" + str(j)][i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8, y=0, pad=-2, verticalalignment="top") ##CHANGE HERE##
                         locals()["ax" + str(j)][i].set_xticks([])
                         locals()["ax" + str(j)][i].set_yticks([])
                         locals()["ax" + str(j)][i].spines['bottom'].set_color('white')
@@ -363,7 +415,7 @@ def server(input, output, session):
                 axs[i].imshow(X=test, cmap = mycmap
                               , vmax = np.percentile(maxlistT, 2.5)
                               )
-                axs[i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8) ##CHANGE HERE##
+                axs[i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8, y=0, pad=-2, verticalalignment="top") ##CHANGE HERE##
                 axs[i].set_xticks([])
                 axs[i].set_yticks([])
                 axs[i].spines['bottom'].set_color('white')
@@ -396,12 +448,22 @@ def server(input, output, session):
         meta_of_step=meta2()
         meta_of_step=meta_of_step.reset_index(drop = True)
 
-        ## Select First. ## CHANGE HERE ##
-        meta_of_step=meta_of_step[meta_of_step["Tpairs"] == meta_of_step["Tpairs"].unique()[0]].sort_values(by='label', ascending=True).reset_index(drop = True) ## CHANGE HERE 
-        
+        ## Select First gene pair. ## CHANGE HERE ##
+        meta_of_step=meta_of_step[meta_of_step["gene symbol query"] == gene1()].sort_values(by=['label display'], ascending=False).reset_index(drop = True) ## CHANGE HERE
+      
+        ## LOOP only for NSG1-NSG2 - gene pari 1 - remove rep3
+        if meta_of_step['pairs display'].unique() == "NSG1-NSG2":
+            meta_of_step=meta_of_step[meta_of_step["replicate"] != 'replicate3'].sort_values(by=['label display'], ascending=False).reset_index(drop = True) ## CHANGE HERE
+        else:
+            meta_of_step=meta_of_step
+       
         ## Set inputs
-        gfp_path=meta_of_step["gfp path"]
-        
+        if meta_of_step['pairs display'].unique() == "RPS22A-RPS22B":
+            meta_gfp=meta2()
+            gfp_path=meta_gfp["gfp path"]
+        else:
+            gfp_path=meta_of_step["gfp path"]
+                       
         ## Get range of both labels
         ima_range=range(meta_of_step.index.min()
                       , meta_of_step.index.max() + 1
@@ -455,7 +517,7 @@ def server(input, output, session):
                         locals()["ax" + str(j)][i].imshow(X=test, cmap = mycmap
                                       , vmax = np.percentile(maxlistT, 2.5)
                                       )
-                        locals()["ax" + str(j)][i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8) ##CHANGE HERE##
+                        locals()["ax" + str(j)][i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8, y=0, pad=-2, verticalalignment="top") ##CHANGE HERE##
                         locals()["ax" + str(j)][i].set_xticks([])
                         locals()["ax" + str(j)][i].set_yticks([])
                         locals()["ax" + str(j)][i].spines['bottom'].set_color('white')
@@ -501,7 +563,7 @@ def server(input, output, session):
                 axs[i].imshow(X=test, cmap = mycmap
                               , vmax = np.percentile(maxlistT, 2.5)
                               )
-                axs[i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8) ##CHANGE HERE##
+                axs[i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8, y=0, pad=-2, verticalalignment="top") ##CHANGE HERE##
                 axs[i].set_xticks([])
                 axs[i].set_yticks([])
                 axs[i].spines['bottom'].set_color('white')
@@ -535,12 +597,16 @@ def server(input, output, session):
         meta_of_step=meta2()
         meta_of_step=meta_of_step.reset_index(drop = True)
         
-        ## Select First ## CHANGE HERE ##
-        meta_of_step=meta_of_step[meta_of_step["Tpairs"] == meta_of_step["Tpairs"].unique()[1]].sort_values(by='label', ascending=True).reset_index(drop = True) ## CHANGE HERE 
+        ## Select SECOND gene pair. ## CHANGE HERE ##
+        meta_of_step=meta_of_step[meta_of_step["gene symbol query"] == gene2()].sort_values(by=['label display'], ascending=False).reset_index(drop = True) ## CHANGE HERE
         
         ## Set inputs
-        gfp_path=meta_of_step["gfp path"]
-        
+        if meta_of_step['pairs display'].unique() == "RPS22A-RPS22B":
+            meta_gfp=meta2()
+            gfp_path=meta_gfp["gfp path"]
+        else:
+            gfp_path=meta_of_step["gfp path"]
+                      
         ## Get range of both labels
         ima_range=range(meta_of_step.index.min()
                       , meta_of_step.index.max() + 1
@@ -586,15 +652,15 @@ def server(input, output, session):
                 if n_cols > 0:
                 
                     locals()["ax" + str(j)] = subplots[j].subplots(1, n_cols, sharex = True, sharey=True, squeeze = False) if n_cols == 1 else subplots[j].subplots(1, n_cols, sharex = True, sharey=True)
-                    locals()["ax" + str(j)] = locals()["ax" + str(j)].ravel() 
-                
+                    locals()["ax" + str(j)] = locals()["ax" + str(j)].ravel()
+
                     ## Set second loop for figs  -- per rep    
                     for i in range(0, n_cols):
                         test=imread(fname = meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['gfp path'].reset_index(drop = True)[i]) ##CHANGE HERE##
                         locals()["ax" + str(j)][i].imshow(X=test, cmap = mycmap
                                       , vmax = np.percentile(maxlistT, 2.5)
                                       )
-                        locals()["ax" + str(j)][i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8) ##CHANGE HERE##
+                        locals()["ax" + str(j)][i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8, y=0, pad=-2, verticalalignment="top") ##CHANGE HERE##
                         locals()["ax" + str(j)][i].set_xticks([])
                         locals()["ax" + str(j)][i].set_yticks([])
                         locals()["ax" + str(j)][i].spines['bottom'].set_color('white')
@@ -616,7 +682,6 @@ def server(input, output, session):
                     locals()["ax" + str(j)].spines['left'].set_color('white')
                     locals()["ax" + str(j)].set_title('No images for rep' + str(number) , size=15)## CHANGE HERE ##
         
-                    
             return fig
             
         ## This is if there is one one rep  
@@ -640,7 +705,7 @@ def server(input, output, session):
                 axs[i].imshow(X=test, cmap = mycmap
                               , vmax = np.percentile(maxlistT, 2.5)
                               )
-                axs[i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8) ##CHANGE HERE##
+                axs[i].set_title("\n\n\n" + meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8, y=0, pad=-2, verticalalignment="top") ##CHANGE HERE##
                 axs[i].set_xticks([])
                 axs[i].set_yticks([])
                 axs[i].spines['bottom'].set_color('white')
@@ -673,12 +738,16 @@ def server(input, output, session):
         meta_of_step=meta2()
         meta_of_step=meta_of_step.reset_index(drop = True)
         
-        ## Select First. ## CHANGE HERE ##
-        meta_of_step=meta_of_step[meta_of_step["Tpairs"] == meta_of_step["Tpairs"].unique()[1]].sort_values(by='label', ascending=True).reset_index(drop = True) ## CHANGE HERE 
-        
+        ## Select SECOND gene pair. ## CHANGE HERE ##
+        meta_of_step=meta_of_step[meta_of_step["gene symbol query"] == gene2()].sort_values(by=['label display'], ascending=False).reset_index(drop = True) ## CHANGE HERE
+          
         ## Set inputs
-        gfp_path=meta_of_step["gfp path"]
-        
+        if meta_of_step['pairs display'].unique() == "RPS22A-RPS22B":
+            meta_gfp=meta2()
+            gfp_path=meta_gfp["gfp path"]
+        else:
+            gfp_path=meta_of_step["gfp path"]
+            
         ## Get range of both labels
         ima_range=range(meta_of_step.index.min()
                       , meta_of_step.index.max() + 1
@@ -732,7 +801,7 @@ def server(input, output, session):
                         locals()["ax" + str(j)][i].imshow(X=test, cmap = mycmap
                                       , vmax = np.percentile(maxlistT, 2.5)
                                       )
-                        locals()["ax" + str(j)][i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8) ##CHANGE HERE##
+                        locals()["ax" + str(j)][i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8, y=0, pad=-2, verticalalignment="top") ##CHANGE HERE##
                         locals()["ax" + str(j)][i].set_xticks([])
                         locals()["ax" + str(j)][i].set_yticks([])
                         locals()["ax" + str(j)][i].spines['bottom'].set_color('white')
@@ -777,7 +846,7 @@ def server(input, output, session):
                 axs[i].imshow(X=test, cmap = mycmap
                               , vmax = np.percentile(maxlistT, 2.5)
                               )
-                axs[i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8) ##CHANGE HERE##
+                axs[i].set_title(meta_of_step[meta_of_step["replicate"] == meta_of_step["replicate"].unique()[j]]['label display'].reset_index(drop = True)[i] + " - rep" + str(number), size=8, y=0, pad=-2, verticalalignment="top") ##CHANGE HERE##
                 axs[i].set_xticks([])
                 axs[i].set_yticks([])
                 axs[i].spines['bottom'].set_color('white')
@@ -852,7 +921,7 @@ def server(input, output, session):
     ## Acknowledgement text
     @render.text
     def acknowledge():## CHANGE HERE ##
-        return f"All the images for each paralog for both genetic backgrounds have been visualized using the same intensity settings. \n\n" + \
+        return f"All images for each paralog for both genetic backgrounds have been visualized using the same intensity settings. \n\n" + \
                 f"Supplementary data files are available from here: \n\n" + \
                 f"Rohan Dandage, Mikhail Papkov, Brittany M. Greco, Dmytro Fishman, Helena Friesen, Kyle Wang, \n" + \
                 f"Erin Styles, Oren Kraus, Benjamin Grys, Charles Boone, Brenda Andrews, Leopold Parts, Elena Kuzmin" + \
