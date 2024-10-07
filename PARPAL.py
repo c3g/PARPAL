@@ -232,6 +232,10 @@ def server(input, output, session):
     @reactive.event(input.submit)
     def paralogredis():
         
+        ## Set New Table names
+        col_rename={"LFC" : "Relative abundance change, LFC", "q-value" : "Relative abundance change, q-value"}
+        col_selector={"Paralog pair", "ORF1-ORF2", "Gene", "ORF", "Redistribution score", "Redistribution", "Relative abundance change, LFC", "Relative abundance change, q-value", "Relative abundance change, type", "Relocalization type", "Relocalization description"}
+        
         ## Set table options for 3 decimal points 
         pd.options.display.float_format = "{:,.3f}".format 
         
@@ -245,7 +249,7 @@ def server(input, output, session):
         if len(redis) > 0:
             
             ## Selec column
-            redis=redis[redis.columns.difference(['No redistribution or protein abundance change'])]
+            redis=redis.rename(columns=col_rename).drop("No redistribution or protein abundance change", axis=1)
             
             ## Change name - center
             redis=redis.style.set_properties(**{'text-align': 'center', 'font-size': '12px', 'font-family': 'Helvetica Neue'}).hide(axis='index').format(precision=3)
