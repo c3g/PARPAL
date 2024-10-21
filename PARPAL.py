@@ -60,27 +60,31 @@ app_ui = ui.page_sidebar(
         padding=40, ## Padding btw things inside
     ),
     ## Beginning of the main page - Intro
+    # INTRO - MAIN PAGE #
     ui.output_image("EKimage", inline = True).add_style("text-align:center; padding-right:100px; padding-left:100px;"),
     ui.h3("Introduction").add_style("text-align:center; padding:40px; font-family:Helvetica Neue; font-size:22pt;"),
     ui.div(), 
     ui.output_text_verbatim("message", placeholder = True
         ).add_style("text-align:center; padding:10px; background:white; font-size:14pt; border:white; font-family:Helvetica Neue;"),
     ui.h6(
-      "Email: ", HTML("<a href='mailto:elena.kuzmin@concordia.ca'>elena.kuzmin@concordia.ca</a>")
+        "Email: ", HTML("<a href='mailto:elena.kuzmin@concordia.ca'>elena.kuzmin@concordia.ca</a>")
         ).add_style("text-align:center; font-size:11pt;"),
     ui.h6(  
-      "Website: ", 
-      HTML("<a href='https://kuzmin-lab.github.io/'>https://kuzmin-lab.github.io/</a>") 
+        "Website: ", 
+        HTML("<a href='https://kuzmin-lab.github.io/'>https://kuzmin-lab.github.io/</a>") 
         ).add_style("text-align:center; font-size:11pt; font-family:Helvetica Neue;"),
     ui.h1(" ").add_style("text-align:center; padding-top:100px; font-family:Helvetica Neue;"),
     ui.h6("Please allow for some loading time when switching between paralog pairs!"
         ).add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue;"),
     ## Beginning of the tabs
     ui.page_navbar(
+        # GENE PAIR INFO - TAB 1 #
         ui.nav_panel("Scores", 
             ui.output_table("paralogredis", 
-            ).add_style("padding-top:100px; padding-bottom:100px; padding-right:50px; padding-left:50px; font-family:Helvetica Neue;"),
+                ).add_style("padding-top:100px; padding-bottom:100px; font-family:Helvetica Neue;"),
+            ui.div(), 
         ),
+        # GENE PAIR FIGURES WT - TAB 2 #
         ui.nav_panel("Paralog 1",
             ui.h6("Wild-type background").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:50px; padding-bottom:0px;"),
             ui.output_plot("pair1_1", width = "1000px", height = "1000px").add_style("text-align:center; padding-top:50px;"),
@@ -88,6 +92,7 @@ app_ui = ui.page_sidebar(
             ui.h6("Deletion background").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:100px; padding-bottom:0px;"), 
             ui.output_plot("pair1_2", width = "1000px", height = "1000px").add_style("text-align:center; padding-top:50px;"),
         ),
+        # GENE PAIR FIGURES DELTA - TAB 3 #
         ui.nav_panel("Paralog 2",
             ui.h6("Wild-type background").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:50px; padding-bottom:0px;"),
             ui.output_plot("pair2_1", width = "1000px", height = "1000px").add_style("text-align:center; padding-top:50px;"),
@@ -95,6 +100,7 @@ app_ui = ui.page_sidebar(
             ui.h6("Deletion background").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:100px; padding-bottom:0px;"), 
             ui.output_plot("pair2_2", width = "1000px", height = "1000px").add_style("text-align:center; padding-top:50px;"),
         ),
+        # EXTRA PAPER DOWNLOADS - TAB 4 #
         ui.nav_panel("Supplemental files",
             ui.h5("Download below supp. data").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:50px; padding-bottom:50px;"),
             ui.div(),
@@ -114,8 +120,30 @@ app_ui = ui.page_sidebar(
             ui.download_link("D2", "Data  S2 - Protein abundance per single cell").add_style("font-size:11pt; font-family:Helvetica Neue;"),
             ui.div(),
         ),
+        # OUTSIDE DATA - TAB 5 #
+        ui.nav_panel("External data and resources", 
+            ui.h6("SGD (Saccharomyces Genome Database): ").add_style("text-align:center; padding-top:100px; font-size:11pt; font-family:Helvetica Neue;"),
+            ui.output_ui("YLink1").add_style("text-align:center; font-size:10pt; font-family:Helvetica Neue;"),
+            ui.div(), 
+            ui.h6("Trigenic interaction fraction using single and double gene deletion mutants"
+                ).add_style("padding-top:40px; text-align:center; font-size:11pt; font-family:Helvetica Neue;"),
+            ui.output_ui("TI1").add_style("text-align:center; font-size:10pt; font-family:Helvetica Neue;"),
+            ui.output_ui("TIL").add_style("text-align:center; font-size:10pt; font-family:Helvetica Neue;"),
+            ui.div(),
+            ui.h6("Protein-protein interaction change in response to paralog deletion"
+                ).add_style("padding-top:40px; text-align:center; font-size:10pt; font-family:Helvetica Neue;"),
+            ui.output_ui("PP1").add_style("text-align:center; font-size:10pt; font-family:Helvetica Neue;"),
+            ui.output_ui("PPL").add_style("text-align:center; font-size:10pt; font-family:Helvetica Neue;"),
+            ui.div(),
+            ui.h6("Regulation of protein level in response to paralog deletion"
+                ).add_style("padding-top:40px; text-align:center; font-size:10pt; font-family:Helvetica Neue;"),
+            ui.output_ui("RP1").add_style("text-align:center; font-size:10pt; font-family:Helvetica Neue;"),
+            ui.output_ui("RPL").add_style("text-align:center; font-size:10pt; font-family:Helvetica Neue;"),
+            ui.div(),
+        ),
         id="tab",
     ).add_style("font-family:Helvetica Neue;"),
+    # REFERENCES - MAIN PAGE #
     ## Beginning of the closing statement. 
     ui.h1(" ").add_style("text-align:center; padding-top:100px; font-family:Helvetica Neue;"),
     ui.h3("References").add_style("text-align:center; padding:40px; font-family:Helvetica Neue;font-size:22pt;"),
@@ -131,7 +159,10 @@ app_ui = ui.page_sidebar(
 
 # Server ######################################################################
 def server(input, output, session):
-  
+
+
+
+    # ESSETNAILS #
     ## Add Image for side bar
     @render.image
     def C3Gimage():
@@ -143,8 +174,8 @@ def server(input, output, session):
     def C3G():
         return f"\n\n\n\n\n" + \
                 f"Website developed by: \n" + \
-                f"Gerardo Zapata, Rohan Dandage, \n" + \
-                f"Vanessa Pereira and Elena Kuzmin \n\n" + \
+                f"Gerardo Zapata, Brittany Greco, \n" + \
+                f"Rohan Dandage, Vanessa Pereira and Elena Kuzmin \n\n" + \
                 f"In Collaboraton with: \n" + \
                 f"Canadian Centre for Computational Genomics (C3G) \n" 
 
@@ -213,7 +244,10 @@ def server(input, output, session):
         genes_of_step=meta_gene["pairs display"][1].split("-")
         gene22=genes_of_step[1]
         return gene22
-
+    
+    
+    
+    # INTRO - MAIN PAGE #
     ## Set code block for text example
     @render.text
     def message():
@@ -226,7 +260,9 @@ def server(input, output, session):
                 f"Total cells = ~460K \n\n" + \
                 f"For details on the PARPAL project, data and website please contact Elena Kuzmin: \n"
 
+
     
+    # GENE PAIR INFO - TAB 1 #
     ## New mix table 
     @render.table
     @reactive.event(input.submit)
@@ -234,7 +270,7 @@ def server(input, output, session):
         
         ## Set New Table names
         col_rename={"LFC" : "Relative abundance change, LFC", "q-value" : "Relative abundance change, q-value"}
-        col_selector={"Paralog pair", "ORF1-ORF2", "Gene", "ORF", "Redistribution score", "Redistribution", "Relative abundance change, LFC", "Relative abundance change, q-value", "Relative abundance change, type", "Relocalization type", "Relocalization description"}
+        # col_selector={"Paralog pair", "ORF1-ORF2", "Gene", "ORF", "Redistribution score", "Redistribution", "Relative abundance change, LFC", "Relative abundance change, q-value", "Relative abundance change, type", "Relocalization type", "Relocalization description"}
         
         ## Set table options for 3 decimal points 
         pd.options.display.float_format = "{:,.3f}".format 
@@ -252,8 +288,8 @@ def server(input, output, session):
             redis=redis.rename(columns=col_rename).drop("No redistribution or protein abundance change", axis=1)
             
             ## Change name - center
-            redis=redis.style.set_properties(**{'text-align': 'center', 'font-size': '12px', 'font-family': 'Helvetica Neue'}).hide(axis='index').format(precision=3)
-            redis=redis.set_table_styles([{'selector':'th', 'props': 'text-align: center; font-size: 12px; font-family:Helvetica Neue;'}])
+            redis=redis.style.set_properties(**{'text-align': 'center', 'font-size': '11px', 'font-family': 'Helvetica Neue'}).hide(axis='index').format(precision=3)
+            redis=redis.set_table_styles([{'selector':'th', 'props': 'text-align: center; font-size: 11px; font-family:Helvetica Neue;'}])
         
         else:
             
@@ -267,6 +303,8 @@ def server(input, output, session):
         return redis
 
 
+  
+    # GENE PAIR FIGURES - ESSENTIALS #
     ## Set variable for max intensity value per replicate 
     @reactive.calc
     @reactive.event(input.submit)
@@ -295,6 +333,9 @@ def server(input, output, session):
         maxs=[0]
         return maxs
 
+
+
+    # GENE PAIR FIGURES WT - TAB 2 #
     ## Set pair1 WT ## CHANGE HERE ##
     @render.plot
     @reactive.event(input.submit)
@@ -593,6 +634,8 @@ def server(input, output, session):
             return fig
 
 
+
+    # GENE PAIR FIGURES DELTA - TAB 3 #
     ## Set pair2 WT ## CHANGE HERE ##
     @render.plot
     @reactive.event(input.submit)
@@ -877,6 +920,7 @@ def server(input, output, session):
 
     
     
+    # EXTRA PAPER DOWNLOADS - TAB 4 #
     ## Download D1
     @render.download
     def D1():
@@ -921,6 +965,99 @@ def server(input, output, session):
 
 
 
+    # OUTSIDE DATA - TAB 5 #
+    ## Yeast genome Link 1
+    # @reactive.calc
+    # @reactive.event(input.submit)
+    # def YL1():
+    #     urlYL1="https://www.yeastgenome.org/locus/" + gene1()
+    #     return ui.tags.a("Click here" , href=urlYL1, target='_blank')
+    # 
+    # ## actual sentence YLink1
+    # @render.ui
+    # @reactive.event(input.submit)
+    # def YLink1():
+    #     return ui.div(YL1(), " - ", gene11())
+
+    ## Links to Sacc websites
+    @render.ui
+    @reactive.event(input.submit)
+    def YLink1():
+        
+        ## URL to each sacc. site      
+        urlYL1="https://www.yeastgenome.org/locus/" + gene1()
+        urlYL2="https://www.yeastgenome.org/locus/" + gene2()
+        
+        YLone=ui.tags.a(gene11(), href=urlYL1, target="_blank")
+        YLtwo=ui.tags.a(gene22(), href=urlYL2, target="_blank")
+ 
+        return ui.div(YLone, HTML("<br>"), YLtwo)
+
+
+    ### Transgenic interaction
+    ## ORF1 or ORF2 Value
+    @render.ui
+    @reactive.event(input.submit)
+    def TI1():
+
+        ## Read
+        TItable=pd.read_csv(f"{DATAROOT}/external/Kuzmin_et_al_2020.csv", sep=',')
+        TItable=TItable[(TItable['Gene1'] == gene11()) | (TItable['Gene2'] == gene22()) | (TItable['Gene2'] == gene11()) | (TItable['Gene1'] == gene22())][['Trigenic interaction fraction class']].values.tolist()[0]
+
+        return ui.div("Trigenic interaction fraction class = " , TItable)
+
+    ## Link
+    @render.ui
+    def TIL():
+        urlTIL1="https://www.science.org/doi/10.1126/science.aaz5667"
+        urlTIL2="http://boonelab.ccbr.utoronto.ca/paralogs/"
+        
+        one=ui.tags.a("Kuzmin et al. Science 2020", href=urlTIL1, target="_blank")
+        two=ui.tags.a("Trigenic interaction data portal", href=urlTIL2, target="_blank")
+        
+        return ui.div(one, " or ", two)
+      
+    ### Protein-Protein interaction
+    ## ORF1 or ORF2 Conclusion
+    @render.ui
+    @reactive.event(input.submit)
+    def PP1():
+
+        ## Read
+        PPtable=pd.read_csv(f"{DATAROOT}/external/Diss_et_al_2017.csv", sep=',')
+        PPtable=PPtable[(PPtable['Gene1'] == gene11()) | (PPtable['Gene2'] == gene22()) | (PPtable['Gene2'] == gene11()) | (PPtable['Gene1'] == gene22())][['Conclusion']].values.tolist()[0]
+
+        return ui.div("Conclusion = " , PPtable)
+
+    ## Link
+    @render.ui
+    def PPL():
+        urlPPL="https://www.science.org/doi/full/10.1126/science.aai7685"
+        
+        return ui.tags.a("Diss et al Science 2017", href=urlPPL, target="_blank")
+    
+    ## Regulation Protein Level
+    # ORF1 or ORF2 Value
+    @render.ui
+    @reactive.event(input.submit)
+    def RP1():
+
+        ## Read
+        RPtable=pd.read_csv(f"{DATAROOT}/external/DeLuna_et_al_2010.csv", sep=',')
+        RPtable=RPtable[(RPtable['Gene1'] == gene11()) | (RPtable['Gene2'] == gene22()) | (RPtable['Gene2'] == gene11()) | (RPtable['Gene1'] == gene22())][['Response']].values.tolist()[0]
+
+        return ui.div("Response = " , RPtable)
+
+    ## Link
+    @render.ui
+    def RPL():
+        urlRPL="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1000347"
+        
+        return ui.tags.a("DeLuna et al PLoS Biology 2010", href=urlRPL, target="_blank")
+
+
+
+    # REFERENCES - MAIN PAGE #
     ## Acknowledgement text
     @render.text
     def acknowledge():## CHANGE HERE ##
