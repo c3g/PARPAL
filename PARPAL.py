@@ -81,7 +81,7 @@ app_ui = ui.page_sidebar(
         # GENE PAIR INFO - TAB 1 #
         ui.nav_panel("Scores", 
             ui.output_table("paralogredis", 
-                ).add_style("padding-top:100px; padding-bottom:100px; font-family:Helvetica Neue;"),
+                ).add_style("padding-top:100px; padding-bottom:100px; font-family:Helvetica Neue; text-align:center;"),
             ui.div(), 
         ),
         # GENE PAIR FIGURES WT - TAB 2 #
@@ -173,7 +173,7 @@ def server(input, output, session):
     @render.text
     def C3G():
         return f"\n\n\n\n\n" + \
-                f"Website developed by: \n" + \
+                f"Website developed & maintained by: \n" + \
                 f"Gerardo Zapata, Brittany Greco, \n" + \
                 f"Rohan Dandage, Vanessa Pereira and Elena Kuzmin \n\n" + \
                 f"In Collaboraton with: \n" + \
@@ -268,37 +268,36 @@ def server(input, output, session):
     @reactive.event(input.submit)
     def paralogredis():
         
-        ## Set New Table names
-        col_rename={"LFC" : "Relative abundance change, LFC", "q-value" : "Relative abundance change, q-value"}
-        # col_selector={"Paralog pair", "ORF1-ORF2", "Gene", "ORF", "Redistribution score", "Redistribution", "Relative abundance change, LFC", "Relative abundance change, q-value", "Relative abundance change, type", "Relocalization type", "Relocalization description"}
-        
-        ## Set table options for 3 decimal points 
-        pd.options.display.float_format = "{:,.3f}".format 
-        
-        redis=pd.read_csv(f"{DATAROOT}/scores/NewScores_forGerardo.tsv", sep='\t', float_precision='round_trip')
+        redis=pd.read_csv(f"{DATAROOT}/scores/TableS4_forGerardo_qvalueedited.csv", sep=',')
         redis=redis[(redis['Gene'] == gene11()) | (redis['Gene'] == gene22())]
         redis["No redistribution or protein abundance change"] = ""
+        pd.set_option('display.float_format', '{:.3e}'.format)
         
-        # redis=redis[redis.columns.difference(['No redistribution or protein abundance change'])] if len(redis) > 0 else redis[["No redistribution or protein abundance change"]]
-        
+        redis['relative abundance change, q-value']=redis['relative abundance change, q-value'].map('{:.3e}'.format).replace("e", "x10^",regex=True)
+
         ## Loop to display whole table or only the one column
         if len(redis) > 0:
             
             ## Selec column
-            redis=redis.rename(columns=col_rename).drop("No redistribution or protein abundance change", axis=1)
-            
+            redis=redis.drop("No redistribution or protein abundance change", axis=1)
+          
             ## Change name - center
-            redis=redis.style.set_properties(**{'text-align': 'center', 'font-size': '11px', 'font-family': 'Helvetica Neue'}).hide(axis='index').format(precision=3)
-            redis=redis.set_table_styles([{'selector':'th', 'props': 'text-align: center; font-size: 11px; font-family:Helvetica Neue;'}])
-        
+            redis=redis.style.format({'relative abundance change, LFC': '{:.3f}',
+                                      'redistribution score': '{:.3f}'})\
+                .set_properties(**{'text-align':'center', 'font-size':'10px', 
+                                                'font-family':'Helvetica Neue',})\
+                .hide(axis='index')\
+                .set_table_styles([{'selector':'th', 'props': 
+                                          'text-align:center; font-size:12px; font-family:Helvetica Neue; border-bottom:1.5px solid black'}])
+
         else:
             
             ## Selec column
             redis=redis[["No redistribution or protein abundance change"]]
             
             ## Change name - center
-            redis=redis.style.set_properties(**{'text-align': 'center', 'font-size': '20px', 'font-family': 'Helvetica Neue'})
-            redis=redis.set_table_styles([{'selector':'th', 'props': 'text-align: center; font-size: 20px; font-family:Helvetica Neue;'}])
+            redis=redis.style.set_properties(**{'text-align': 'center', 'font-size': '20px', 'font-family': 'Helvetica Neue'})\
+                .set_table_styles([{'selector':'th', 'props': 'text-align: center; font-size: 20px; font-family:Helvetica Neue;'}])
         
         return redis
 
@@ -332,8 +331,6 @@ def server(input, output, session):
     def maxs2_2():
         maxs=[0]
         return maxs
-
-
 
     # GENE PAIR FIGURES WT - TAB 2 #
     ## Set pair1 WT ## CHANGE HERE ##
