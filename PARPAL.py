@@ -271,10 +271,19 @@ def server(input, output, session):
         redis=pd.read_csv(f"{DATAROOT}/scores/TableS4_forGerardo_qvalueedited.csv", sep=',')
         redis=redis[(redis['Gene'] == gene11()) | (redis['Gene'] == gene22())]
         redis["No redistribution or protein abundance change"] = ""
-        pd.set_option('display.float_format', '{:.3e}'.format)
+        # redis.loc[redis['Paralog pair']=='CUE1-CUE4', ['relative abundance change, q-value']] = 0
         
-        redis['relative abundance change, q-value']=redis['relative abundance change, q-value'].map('{:.3e}'.format).replace("e", "x10^",regex=True)
+        ## Loop to fix notation for CUE1 or POR1
+        if (gene11() == "CUE1" or gene11() == "POR1"):
+            
+            ## Set q-value column as float with 1 digit
+            redis['relative abundance change, q-value']=redis['relative abundance change, q-value'].map('{:.0f}'.format)
+            
+        else:
 
+            ## Set q-value column as scientific notation (3 sig digits) with 'x10' instead of 'e'
+            redis['relative abundance change, q-value']=redis['relative abundance change, q-value'].map('{:.3e}'.format).replace("e", "x10^",regex=True)
+        
         ## Loop to display whole table or only the one column
         if len(redis) > 0:
             
