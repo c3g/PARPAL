@@ -1,4 +1,4 @@
-# PARPAL  
+# PARPAL. 
 
 <br />
 
@@ -6,7 +6,7 @@
 
 <br />
 
-### Requirements 
+### Requirements. 
 
 1. Create image from container file.  
 2. Ensure to keep in mind that *data* needs to be "attached" to container.   
@@ -21,3 +21,11 @@ export PARPAL_DATA_LOCATION
 Images are automatically built here:   
 https://quay.io/repository/c3genomics/parpal  
 
+<br />
+
+### Website adress. 
+
+Actual PARPAL website: 
+https://parpal.c3g-app.sd4h.ca/ 
+
+<br />
