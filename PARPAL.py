@@ -1010,7 +1010,7 @@ def server(input, output, session):
         TItable=pd.read_csv(f"{DATAROOT}/external/Kuzmin_et_al_2020.csv", sep=',')
         TItable=TItable[(TItable['Gene1'] == gene11()) | (TItable['Gene2'] == gene22()) | (TItable['Gene2'] == gene11()) | (TItable['Gene1'] == gene22())][['Trigenic interaction fraction class']].values.tolist()[0]
 
-        return ui.div("Trigenic interaction fraction class = " , TItable)
+        return ui.div(ui.div("Trigenic interaction fraction class: ") , TItable)
 
     ## Link
     @render.ui
@@ -1030,10 +1030,10 @@ def server(input, output, session):
     def PP1():
 
         ## Read
-        PPtable=pd.read_csv(f"{DATAROOT}/external/Diss_et_al_2017.csv", sep=',')
+        PPtable=pd.read_csv(f"{DATAROOT}/external/Diss_et_al_2017_250123.csv", sep=',')
         PPtable=PPtable[(PPtable['Gene1'] == gene11()) | (PPtable['Gene2'] == gene22()) | (PPtable['Gene2'] == gene11()) | (PPtable['Gene1'] == gene22())][['Conclusion']].values.tolist()[0]
 
-        return ui.div("Conclusion = " , PPtable)
+        return ui.div(ui.div("Conclusion: ") , PPtable)
 
     ## Link
     @render.ui
@@ -1052,7 +1052,7 @@ def server(input, output, session):
         RPtable=pd.read_csv(f"{DATAROOT}/external/DeLuna_et_al_2010.csv", sep=',')
         RPtable=RPtable[(RPtable['Gene1'] == gene11()) | (RPtable['Gene2'] == gene22()) | (RPtable['Gene2'] == gene11()) | (RPtable['Gene1'] == gene22())][['Response']].values.tolist()[0]
 
-        return ui.div("Response = " , RPtable)
+        return ui.div(ui.div("Response: ") , RPtable)
 
     ## Link
     @render.ui
