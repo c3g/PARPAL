@@ -43,16 +43,16 @@ app_ui = ui.page_sidebar(
     ## Beginnning of Sidebar 
     ui.sidebar(
         ui.input_selectize(id = "genepairs", label = "Search for Paralogs:"
-          , choices= genesofi
-          , multiple = False
-          , selected = None 
-          , remove_button = True
+            , choices= genesofi
+            , multiple = False
+            , selected = None 
+            , remove_button = True
             ).add_style("font-family:Helvetica Neue;"),
         ui.input_action_button("submit", "Submit", class_="btn-success").add_style("background:#7393B3; border:white; font-family:Helvetica Neue;"), 
         # ui.output_ui("compute"), ## loading button slowes down processes
         ui.output_text_verbatim("C3G", placeholder = False).add_style("text-align:center; background:#F8F8F8; border:white; font-size:9pt; font-family:Helvetica Neue;"),
         ui.h3(
-          HTML("<a href='https://computationalgenomics.ca/team_profiles/#GZ'>https://computationalgenomics.ca</a>")
+            HTML("<a href='https://computationalgenomics.ca/team_profiles/#GZ'>https://computationalgenomics.ca</a>")
             ).add_style("text-align:center; font-size:8pt; font-family:Helvetica Neue;"),  
         ui.output_image("C3Gimage", inline = True).add_style("text-align:center; padding:10px;"),
         shinyswatch.theme.litera(),
@@ -61,20 +61,17 @@ app_ui = ui.page_sidebar(
     ),
     ## Beginning of the main page - Intro
     # INTRO - MAIN PAGE #
-    ui.output_image("EKimage", inline = True).add_style("text-align:center; padding-right:100px; padding-left:100px;"),
-    ui.h3("Introduction").add_style("text-align:center; padding:40px; font-family:Helvetica Neue; font-size:22pt;"),
-    ui.div(), 
+    ui.output_image("EKimage", inline = True).add_style("text-align:center;padding-right:100px; padding-left:250px;"),
+    # ui.h3("Introduction").add_style("text-align:center; padding:40px; font-family:Helvetica Neue; font-size:22pt;"),
+    # ui.div(), 
     ui.output_text_verbatim("message", placeholder = True
-        ).add_style("text-align:center; padding:10px; background:white; font-size:14pt; border:white; font-family:Helvetica Neue;"),
-    ui.h6(
-        "Email: ", HTML("<a href='mailto:elena.kuzmin@concordia.ca'>elena.kuzmin@concordia.ca</a>")
-        ).add_style("text-align:center; font-size:11pt;"),
-    ui.h6(  
-        "Website: ", 
-        HTML("<a href='https://kuzmin-lab.github.io/'>https://kuzmin-lab.github.io/</a>") 
-        ).add_style("text-align:center; font-size:11pt; font-family:Helvetica Neue;"),
-    ui.h1(" ").add_style("text-align:center; padding-top:100px; font-family:Helvetica Neue;"),
+        ).add_style("text-align:center; padding:5px; background:white; font-size:14pt; border:white; font-family:Helvetica Neue;"),
+    ui.h6(" ").add_style("text-align:center; padding-top:20px; font-family:Helvetica Neue;"),
     ui.h6("Please allow for some loading time when switching between paralog pairs!"
+        ).add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue;"),
+    ui.h6("It is recommended to zoom in/out with cursor (mouse, trackpad) rather than browser (command +/-) "
+        ).add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue;"),
+    ui.h6("to avoid scale changes to the website."
         ).add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue;"),
     ## Beginning of the tabs
     ui.page_navbar(
@@ -82,6 +79,9 @@ app_ui = ui.page_sidebar(
         ui.nav_panel("Scores", 
             ui.output_table("paralogredis", 
                 ).add_style("padding-top:100px; padding-bottom:100px; font-family:Helvetica Neue; text-align:center;"),
+            ui.div(),
+            ui.output_text_verbatim("redisinfo", placeholder = True
+                ).add_style("text-align:left; padding:10px; background:white; font-size:8pt; border:white; font-family:Helvetica Neue;"),
             ui.div(), 
         ),
         # GENE PAIR FIGURES WT - TAB 2 #
@@ -102,7 +102,7 @@ app_ui = ui.page_sidebar(
         ),
         # EXTRA PAPER DOWNLOADS - TAB 4 #
         ui.nav_panel("Supplemental files",
-            ui.h5("Download below supp. data").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:50px; padding-bottom:50px;"),
+            ui.h5("Click to download supp. data").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:50px; padding-bottom:50px;"),
             ui.div(),
             ui.download_link("T1", "Table S1 - Yeast strains and plasmids used in this study").add_style("font-size:11pt; font-family:Helvetica Neue;"),
             ui.div(),
@@ -141,18 +141,32 @@ app_ui = ui.page_sidebar(
             ui.output_ui("RPL").add_style("text-align:center; font-size:10pt; font-family:Helvetica Neue;"),
             ui.div(),
         ),
+        # REFERENCES - TAB 6 #
+        ui.nav_panel("References",
+            ui.h6(" ").add_style("text-align:center; padding-top:20px; font-family:Helvetica Neue;"),
+            ui.output_text_verbatim("acknowledge1", placeholder = True
+                ).add_style("text-align:center; background:white; font-size:12pt; padding-bottom:0px; border:white; font-family:Helvetica Neue;"),
+            ui.h6("DOI: ", HTML("<a href='https://doi.org/10.1101/2023.11.23.568466'>https://doi.org/10.1101/2023.11.23.568466</a>"),
+                ).add_style("text-align:center; font-size:8pt; padding-top:0px; font-family:Helvetica Neue;"),
+            ui.h6(" ").add_style("text-align:center; padding-top:20px; font-family:Helvetica Neue;"),
+            ui.output_text_verbatim("acknowledge2", placeholder = True
+                ).add_style("text-align:center; background:white; font-size:12pt; padding-bottom:0px; border:white; font-family:Helvetica Neue;"),
+            ui.h6("DOI: ", HTML("<a href='https://doi.org/10.1101/2025.03.04.641431'>https://doi.org/10.1101/2025.03.04.641431</a>"),
+                ).add_style("text-align:center; font-size:8pt; padding-top:0px; padding-bottom:50px; font-family:Helvetica Neue;"),
+            ui.h6(" ").add_style("text-align:center; padding-top:20px; font-family:Helvetica Neue;"),
+            ui.output_text_verbatim("messagef", placeholder = True
+                ).add_style("text-align:center; background:white; font-size:12pt; border:white; font-family:Helvetica Neue;"),
+            ui.h6("Email: ", HTML("<a href='mailto:elena.kuzmin@concordia.ca'>elena.kuzmin@concordia.ca</a>")
+                ).add_style("text-align:center; font-size:10pt;"),
+            ui.h6("Website: ",HTML("<a href='https://kuzmin-lab.github.io/'>https://kuzmin-lab.github.io/</a>") 
+                ).add_style("text-align:center; font-size:10pt; font-family:Helvetica Neue;"),
+        ),
         id="tab",
     ).add_style("font-family:Helvetica Neue;"),
     # REFERENCES - MAIN PAGE #
     ## Beginning of the closing statement. 
     ui.h1(" ").add_style("text-align:center; padding-top:100px; font-family:Helvetica Neue;"),
-    ui.h3("References").add_style("text-align:center; padding:40px; font-family:Helvetica Neue;font-size:22pt;"),
-    ui.output_text_verbatim("acknowledge"
-        ).add_style("text-align:center; padding:10px; background:white; font-size:14pt; border:white; font-family:Helvetica Neue;"),
-    ui.h6("DOI: ",
-          HTML("<a href='https://doi.org/10.1101/2023.11.23.568466'>https://doi.org/10.1101/2023.11.23.568466</a>"),
-        ).add_style("text-align:center; font-size:11pt; padding-bottom:50px; font-family:Helvetica Neue;"),
-    # shinyswatch.theme.minty(),
+    # ui.h3("References").add_style("text-align:center; padding:40px; font-family:Helvetica Neue;font-size:22pt;"),
     shinyswatch.theme.litera(),
     title="PARPAL",## Web title
 )
@@ -162,7 +176,7 @@ def server(input, output, session):
 
 
 
-    # ESSETNAILS #
+    # ESSETNAIL VARIABLES#
     ## Add Image for side bar
     @render.image
     def C3Gimage():
@@ -196,7 +210,7 @@ def server(input, output, session):
     ## Add Image for main page
     @render.image
     def EKimage():
-        img: ImgData = {"src": f"{DATAROOT}/images/20240417_PARPAL_logo.png", "width": "80%"}
+        img: ImgData = {"src": f"{DATAROOT}/images/20240417_PARPAL_logo.png", "width": "55%"}
         return img
     
     ## remake metadata table --> for gene pair
@@ -257,8 +271,7 @@ def server(input, output, session):
                 f"Proteins screened = 164 \n" + \
                 f"Paralog pairs screened = 82 \n" + \
                 f"Total micrographs = ~3.5K \n" + \
-                f"Total cells = ~460K \n\n" + \
-                f"For details on the PARPAL project, data and website please contact Elena Kuzmin: \n"
+                f"Total cells = ~460K \n"
 
 
     
@@ -271,18 +284,28 @@ def server(input, output, session):
         redis=pd.read_csv(f"{DATAROOT}/scores/TableS4_forGerardo_qvalueedited.csv", sep=',')
         redis=redis[(redis['Gene'] == gene11()) | (redis['Gene'] == gene22())]
         redis["No redistribution or protein abundance change"] = ""
+        redis=redis.rename({'Gene':'Gene-GFP'
+                ,'ORF':'ORF-GFP'
+                ,'redistribution score':'redistribution score*'
+                ,'redistribution':'redistribution*'
+                ,'relative abundance change, LFC':'relative abundance change, LFC**'
+                ,'relative abundance change, q-value':'relative abundance change, q-value**'
+                ,'relative abundance change type':'relative abundance change type**'
+                , 'relocalization type':'relocalization type***'
+                , 'relocalization description':'relocalization description***'}
+            , axis='columns')
         # redis.loc[redis['Paralog pair']=='CUE1-CUE4', ['relative abundance change, q-value']] = 0
         
         ## Loop to fix notation for CUE1 or POR1
         if (gene11() == "CUE1" or gene11() == "POR1"):
             
             ## Set q-value column as float with 1 digit
-            redis['relative abundance change, q-value']=redis['relative abundance change, q-value'].map('{:.0f}'.format)
+            redis['relative abundance change, q-value**']=redis['relative abundance change, q-value**'].map('{:.0f}'.format)
             
         else:
 
             ## Set q-value column as scientific notation (3 sig digits) with 'x10' instead of 'e'
-            redis['relative abundance change, q-value']=redis['relative abundance change, q-value'].map('{:.3e}'.format).replace("e", "x10^",regex=True)
+            redis['relative abundance change, q-value**']=redis['relative abundance change, q-value**'].map('{:.3e}'.format).replace("e", "x10^",regex=True)
         
         ## Loop to display whole table or only the one column
         if len(redis) > 0:
@@ -291,13 +314,26 @@ def server(input, output, session):
             redis=redis.drop("No redistribution or protein abundance change", axis=1)
           
             ## Change name - center
-            redis=redis.style.format({'relative abundance change, LFC': '{:.3f}',
-                                      'redistribution score': '{:.3f}'})\
+            redis=redis.style.format({'relative abundance change, LFC**': '{:.3f}',
+                                      'redistribution score*': '{:.3f}'})\
                 .set_properties(**{'text-align':'center', 'font-size':'10px', 
-                                                'font-family':'Helvetica Neue',})\
+                                                'font-family':'Helvetica Neue',}) \
                 .hide(axis='index')\
                 .set_table_styles([{'selector':'th', 'props': 
-                                          'text-align:center; font-size:12px; font-family:Helvetica Neue; border-bottom:1.5px solid black'}])
+                                          'text-align:center; font-size:12px; font-family:Helvetica Neue; border-bottom:1px solid grey; border-left:0.5px solid #eee; border-right:0.5px solid #eee; border-top:0.5px solid #eee'},
+                                    {'selector':'th:hover', 'props': 'background-color: #ebfce8;'},
+                                    {'selector':'td:hover', 'props': 'background-color: #ebfce8;'},
+                                    {'selector': 'td', 'props': 'border-right: 0.5px solid #eee; border-left: 0.5px solid #eee; border-bottom: 0.5px solid #eee;'}])
+                                    
+            # ## Change name - center
+            # redis=redis.style.format({'relative abundance change, LFC**': '{:.3f}',
+            #                           'redistribution score*': '{:.3f}'})\
+            #     .set_properties(**{'text-align':'center', 'font-size':'10px', 
+            #                                     'font-family':'Helvetica Neue',}) \
+            #     .hide(axis='index')\
+            #     .set_table_styles([{'selector':'th', 'props': 
+            #                               'text-align:center; font-size:12px; font-family:Helvetica Neue; border-bottom:2px solid black'},
+            #                         {'selector': 'td', 'props': 'border-right: 1px solid black;'}])
 
         else:
             
@@ -309,10 +345,31 @@ def server(input, output, session):
                 .set_table_styles([{'selector':'th', 'props': 'text-align: center; font-size: 20px; font-family:Helvetica Neue;'}])
         
         return redis
+    
+    # GENE PAIR INFO - TAB 1 #
+    ## Supp info for redistribution table
+    @render.text
+    @reactive.event(input.submit)
+    def redisinfo():
+      
+        redis=pd.read_csv(f"{DATAROOT}/scores/TableS4_forGerardo_qvalueedited.csv", sep=',')
+        redis=redis[(redis['Gene'] == gene11()) | (redis['Gene'] == gene22())]
+        redis["No redistribution or protein abundance change"] = ""
+        
+        ## If there is anything in redis then print, if not then print 'space'
+        if len(redis) > 0:
+        
+            return f"* - Derived from the analysis of deep neural network features \n" + \
+                    f"** - Derived from mean GFP pixel intensity \n" + \
+                    f"*** - Derived from scoring by visual inspection \n" + \
+                    f"See references tab for more details in the corresponding manuscripts."
+        
+        else:
+          
+            return f" "
 
 
-  
-    # GENE PAIR FIGURES - ESSENTIALS #
+    # GENE PAIR FIGURES - ESSENTIALS - tab 2#
     ## Set variable for max intensity value per replicate 
     @reactive.calc
     @reactive.event(input.submit)
@@ -1063,16 +1120,31 @@ def server(input, output, session):
 
 
 
-    # REFERENCES - MAIN PAGE #
-    ## Acknowledgement text
+    # REFERENCES - TAB 6 #
+    ## Acknowledgement text1
     @render.text
-    def acknowledge():## CHANGE HERE ##
-        return f"All images for each paralog for both genetic backgrounds have been visualized using the same intensity settings. \n\n" + \
-                f"Supplementary data files are available from here: \n\n" + \
+    def acknowledge1():## CHANGE HERE ##
+        return f"\nAll images for each paralog, for both genetic backgrounds have been visualized using the same intensity settings. \n\n\n\n" + \
+                f"Supplementary data files are available from: \n\n" + \
                 f"Rohan Dandage, Mikhail Papkov, Brittany M. Greco, Dmytro Fishman, Helena Friesen, Kyle Wang, \n" + \
                 f"Erin Styles, Oren Kraus, Benjamin Grys, Charles Boone, Brenda Andrews, Leopold Parts, Elena Kuzmin" + \
                 f" \n'Single-cell imaging of protein dynamics of paralogs reveals mechanisms of gene retention.'" + \
                 f" \nbioRxiv (2023): 2023-11."
+                
+    ## Acknowledgement text2
+    @render.text
+    def acknowledge2():## CHANGE HERE ##
+        return f"Brittany M. Greco*, Gerardo Zapata*, Rohan Dandage, Mikhail Papkov, \n" + \
+                f"Vanessa Pereira, François Lefebvre, Guillaume Bourque, Leopold Parts and Elena Kuzmin" + \
+                f" \n'PARPAL: PARalog Protein Redistribution using Abundance and Localization in Yeast Database'" + \
+                f" \nbioRxiv (2025)."
+
+    ## Kuzmin Info
+    @render.text
+    def messagef():
+        return f"For details on the PARPAL project, data and website please contact Elena Kuzmin: \n"
+
+
 
 
 # Close app ####################################################################
