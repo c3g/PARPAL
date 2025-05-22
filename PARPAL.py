@@ -66,9 +66,11 @@ app_ui = ui.page_sidebar(
     # ui.div(), 
     ui.output_text_verbatim("message", placeholder = True
         ).add_style("text-align:center; padding:5px; background:white; font-size:14pt; border:white; font-family:Helvetica Neue;"),
-    ui.h6(" ").add_style("text-align:center; padding-top:20px; font-family:Helvetica Neue;"),
+    ui.h6(" ").add_style("text-align:center; padding-top:10px; font-family:Helvetica Neue;"),
     ui.h6("Please allow for some loading time when switching between paralog pairs!"
         ).add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue;"),
+    ui.h6("All images for each paralog, for both genetic backgrounds have been visualized using the same intensity settings."
+        ).add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue;"),        
     ui.h6("It is recommended to zoom in/out with cursor (mouse, trackpad) rather than browser (command +/-) "
         ).add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue;"),
     ui.h6("to avoid scale changes to the website."
@@ -1124,8 +1126,7 @@ def server(input, output, session):
     ## Acknowledgement text1
     @render.text
     def acknowledge1():## CHANGE HERE ##
-        return f"\nAll images for each paralog, for both genetic backgrounds have been visualized using the same intensity settings. \n\n\n\n" + \
-                f"Supplementary data files are available from: \n\n" + \
+        return f"Supplementary data files are available from: \n\n" + \
                 f"Rohan Dandage, Mikhail Papkov, Brittany M. Greco, Dmytro Fishman, Helena Friesen, Kyle Wang, \n" + \
                 f"Erin Styles, Oren Kraus, Benjamin Grys, Charles Boone, Brenda Andrews, Leopold Parts, Elena Kuzmin" + \
                 f" \n'Single-cell imaging of protein dynamics of paralogs reveals mechanisms of gene retention.'" + \
