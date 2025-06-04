@@ -104,22 +104,56 @@ app_ui = ui.page_sidebar(
         ),
         # EXTRA PAPER DOWNLOADS - TAB 4 #
         ui.nav_panel("Supplemental files",
-            ui.h5("Click to download supp. data").add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:50px; padding-bottom:50px;"),
+            ui.h5("Click to download supp. data"
+                ).add_style("text-align:center; font-size:12pt; font-family:Helvetica Neue; padding-top:50px; padding-bottom:30px;"),
             ui.div(),
             ui.download_link("T1", "Table S1 - Yeast strains and plasmids used in this study").add_style("font-size:11pt; font-family:Helvetica Neue;"),
+            ui.h6("A) Yeast query strain list including strain IDs, paralog ORFs and gene names." + \
+                " B) Genotypes for yeast query strains." + \
+                " C) Plasmid IDs and descriptions."
+                ).add_style("font-size:9pt; font-family:Helvetica Neue; font-weight: normal; padding:0px;"),
             ui.div(),
             ui.download_link("T2", "Table S2 - Protein abundance").add_style("font-size:11pt; font-family:Helvetica Neue;"),
+            ui.h6("A) Description of each column." + \
+                " B) Yeast query strain list including strain IDs, paralog ORFs, gene names,"  + \
+                " protein abundance mean and protein abundance of each replicate."
+                ).add_style("font-size:9pt; font-family:Helvetica Neue; font-weight: normal; padding:0px;"),
             ui.div(),
-            ui.download_link("T3", "Table S3 - Manual inspection of paralog pairs and negative controls").add_style("font-size:11pt; font-family:Helvetica Neue;"),
+            ui.download_link("T3", "Table S3 - Manual inspection of paralog pairs and negative controls"
+                ).add_style("font-size:11pt; font-family:Helvetica Neue;"),
+            ui.h6("A) Description of each column." + \
+                " B) Results of manual inspection with redistribution score provided for comparison."
+                ).add_style("font-size:9pt; font-family:Helvetica Neue; font-weight: normal; padding:0px;"),
             ui.div(),
-            ui.download_link("T4", "Table S4 - The redistribution, relative abundance change and relocalization").add_style("font-size:11pt; font-family:Helvetica Neue;"),
+            ui.download_link("T4", "Table S4 - The redistribution, relative abundance change and relocalization"
+                ).add_style("font-size:11pt; font-family:Helvetica Neue;"),
+            ui.h6("A) Description of each column." + \
+                " B) Paralog pair ORFs and gene names; GFP tagged protein ORF and gene name; redistribution" + \
+                " score and whether it met the 4.73 threshold (true if redistribution score ≥ 4.73 and false" + \
+                " if redistribution score < 4.73); relative abundance change log2 fold change; relative abundance" + \
+                " change log2 fold change q-value; relative abundance change type ns if not significant, compensation" + \
+                " if log2 fold change ≥ 0.2, q < 0.05, dependency if log2 fold change ≤ -0.2, q < 0.05;" + \
+                " relocalization type as assessed by visual inspection with the corresponding description."
+                ).add_style("font-size:9pt; font-family:Helvetica Neue; font-weight: normal; padding:0px;"),
             ui.div(),
             ui.download_link("T5", "Table S5 - Features of paralogs").add_style("font-size:11pt; font-family:Helvetica Neue;"),
+            ui.h6("A) Description of each column." + \
+                " B) Paralog pair ORFs and gene names; protein-protein interaction (PPI) interactors shared;" + \
+                " genetic interaction (GI) shortest path length; PPI shortest path length; Negative GI;" + \
+                " Trigenic interaction fraction class; GI interactors colocalize with sister paralog gene1;" + \
+                " GI interactors colocalize with sister paralog gene2; PPI interactors colocalize with sister paralog gene1;" + \
+                " PPI interactors colocalize with sister paralog gene2."
+                ).add_style("font-size:9pt; font-family:Helvetica Neue; font-weight: normal; padding:0px;"),
             ui.div(),
             ui.download_link("D1", "Data  S1 - Features of single cells").add_style("font-size:11pt; font-family:Helvetica Neue;"),             
-            # ui.h6("-- Features of single cells").add_style("font-size:10pt; font-family:Helvetica Neue;"),
-            ui.div(""),
+            ui.h6("A) Gene class paralogs or random pairs; strain ID; gene name; genetic background of" + \
+                " wild-type or deletion of its paralog; replicate number; cell ID; feature 1-128."
+                ).add_style("font-size:9pt; font-family:Helvetica Neue; font-weight: normal; padding:0px;"),
+            ui.div(),
             ui.download_link("D2", "Data  S2 - Protein abundance per single cell").add_style("font-size:11pt; font-family:Helvetica Neue;"),
+            ui.h6("A) Gene class paralogs or random pairs; strain ID; gene name; genetic background of" + \
+                " wild-type or deletion of its paralog; replicate number; cell ID; protein abundance."
+                ).add_style("font-size:9pt; font-family:Helvetica Neue; font-weight: normal; padding:0px;"),
             ui.div(),
         ),
         # OUTSIDE DATA - TAB 5 #
