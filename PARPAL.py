@@ -182,12 +182,12 @@ app_ui = ui.page_sidebar(
             ui.h6(" ").add_style("text-align:center; padding-top:20px; font-family:Helvetica Neue;"),
             ui.output_text_verbatim("acknowledge1", placeholder = True
                 ).add_style("text-align:center; background:white; font-size:12pt; padding-bottom:0px; border:white; font-family:Helvetica Neue;"),
-            ui.h6("DOI: ", HTML("<a href='https://doi.org/10.1101/2023.11.23.568466'>https://doi.org/10.1101/2023.11.23.568466</a>"),
+            ui.h6("DOI: ", HTML("<a href='https://doi.org/10.1016/j.isci.2025.112771'>https://doi.org/10.1016/j.isci.2025.112771</a>"),
                 ).add_style("text-align:center; font-size:8pt; padding-top:0px; font-family:Helvetica Neue;"),
             ui.h6(" ").add_style("text-align:center; padding-top:20px; font-family:Helvetica Neue;"),
             ui.output_text_verbatim("acknowledge2", placeholder = True
                 ).add_style("text-align:center; background:white; font-size:12pt; padding-bottom:0px; border:white; font-family:Helvetica Neue;"),
-            ui.h6("DOI: ", HTML("<a href='https://doi.org/10.1101/2025.03.04.641431'>https://doi.org/10.1101/2025.03.04.641431</a>"),
+            ui.h6("DOI: ", HTML("<a href='https://doi.org/10.1093/g3journal/jkaf148'>https://doi.org/10.1093/g3journal/jkaf148</a>"),
                 ).add_style("text-align:center; font-size:8pt; padding-top:0px; padding-bottom:50px; font-family:Helvetica Neue;"),
             ui.h6(" ").add_style("text-align:center; padding-top:20px; font-family:Helvetica Neue;"),
             ui.output_text_verbatim("messagef", placeholder = True
@@ -1161,18 +1161,19 @@ def server(input, output, session):
     @render.text
     def acknowledge1():## CHANGE HERE ##
         return f"Supplementary data files are available from: \n\n" + \
-                f"Rohan Dandage, Mikhail Papkov, Brittany M. Greco, Dmytro Fishman, Helena Friesen, Kyle Wang, \n" + \
-                f"Erin Styles, Oren Kraus, Benjamin Grys, Charles Boone, Brenda Andrews, Leopold Parts, Elena Kuzmin" + \
-                f" \n'Single-cell imaging of protein dynamics of paralogs reveals mechanisms of gene retention.'" + \
-                f" \nbioRxiv (2023): 2023-11."
+                f"Single-cell imaging of protein dynamics of paralogs reveals sources of gene retention." + \
+                f" \nDandage, R., Papkov, M., Greco, B.M., Pereira, V., Fishman, D., Friesen, H.," + \
+                f" \nWang, K., Styles, E., Kraus, O., Grys, B., Zapata, G., Lefebvre, F., Bourque, G.," + \
+                f" \nBoone, C., Andrews, B.J., Parts,L., Kuzmin, E.*" + \
+                f" \niScience (2025)"
                 
     ## Acknowledgement text2
     @render.text
     def acknowledge2():## CHANGE HERE ##
-        return f"Brittany M. Greco*, Gerardo Zapata*, Rohan Dandage, Mikhail Papkov, \n" + \
-                f"Vanessa Pereira, François Lefebvre, Guillaume Bourque, Leopold Parts and Elena Kuzmin" + \
-                f" \n'PARPAL: PARalog Protein Redistribution using Abundance and Localization in Yeast Database'" + \
-                f" \nbioRxiv (2025)."
+        return f"PARPAL: PARalog Protein Redistribution using Abundance and Localization in Yeast Database." + \
+                f" \nGreco, B.M., Zapata, G., Dandage, R., Papkov, M., Pereira, V., Lefebvre, F.," + \
+                f" \nBourque, G., Parts,L., Kuzmin, E.*" + \
+                f" \nG3 Genes, Genomes, Genetics (2025)"
 
     ## Kuzmin Info
     @render.text
